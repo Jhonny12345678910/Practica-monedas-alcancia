@@ -1,45 +1,61 @@
-import java.util.Scanner; // Falta importar Scanner
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner moneda = new Scanner(System.in);
+        int opcion, numerodemonedas;
 
-        int a, valorswitch1 = 0, numerodemonedas, multiplicacion;
 
-        System.out.print("Ingrese denominación de la moneda (1)20, (2)50, (3)100, (4)200, (5)500): ");
-        a = moneda.nextInt();
+        do {
+            System.out.println("Menú:");
+            System.out.println("1) Moneda de 20");
+            System.out.println("2) Moneda de 50");
+            System.out.println("3) Moneda de 100");
+            System.out.println("4) Moneda de 200");
+            System.out.println("5) Finalizar programa");
+            System.out.print("Seleccione una opción: ");
+            opcion = moneda.nextInt();
 
-        switch (a) {
-            case 1:
-                valorswitch1 = 20;
+            if (opcion == 5) {
+                System.out.println("Finalizando el programa...");
                 break;
-            case 2:
-                valorswitch1 = 50;
-                break;
-            case 3:
-                valorswitch1 = 100;
-                break;
-            case 4:
-                valorswitch1 = 200;
-                break;
-            case 5:
-                valorswitch1 = 500;
-                break;
-            default:
-                System.out.println("Opción no válida.");
-                moneda.close();
-                return;
-        }
+            }
 
-        System.out.print("Ingrese el número de monedas: ");
-        numerodemonedas = moneda.nextInt();
+            System.out.print("Ingrese el número de monedas: ");
+            numerodemonedas = moneda.nextInt();
 
-        multiplicacion = valorswitch1 * numerodemonedas;
+            // método calcularTotal()
+            int total = calcularTotal(opcion, numerodemonedas);
+            if (total != -1) { // Si el total es válido
+                System.out.println("El número de monedas es: " + numerodemonedas +
+                        " con denominación de " + obtenerValorMoneda(opcion) +
+                        ". Total: " + total);
+            }
 
-        System.out.println("El número de monedas es: " + numerodemonedas +
-                " con denominación de " + valorswitch1 +
-                ". Total: " + multiplicacion);
+        } while (opcion != 5); // Repite hasta que el usuario elija 5
 
         moneda.close();
     }
+
+    // Método para calcular el total
+    public static int calcularTotal(int opcion, int cantidad) {
+        int valor = obtenerValorMoneda(opcion);
+        if (valor == -1) {
+            System.out.println("Opción no válida. Intente de nuevo.");
+            return -1;
+        }
+        return valor * cantidad;
+    }
+
+    // Método para obtener el valor de la moneda
+    public static int obtenerValorMoneda(int opcion) {
+        switch (opcion) {
+            case 1: return 20;
+            case 2: return 50;
+            case 3: return 100;
+            case 4: return 200;
+            default: return -1;
+        }
+    }
 }
+
